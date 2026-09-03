@@ -94,14 +94,28 @@ red nacional.
 El sistema deberá soportar hasta 10.000 mascotas registradas distribuidas en la jerarquía de
 refugios,de acuerdo a lo expuesto en el RFN-01 manteniendo el mismo comportamiento en las operaciones de recorrido y consulta.
 
+## Punto 3
+### Historias de Usuario
 
+#### HU-01 — Asociada a RF-01 (Patrón Iterator)
 
+* Como Adoptador, quiero recorrer el catálogo de mascotas aplicando distintos criterios de búsqueda (por especie,
+por rango de edad, por compatibilidad o por refugio de origen), para encontrar de forma rápida las mascotas que se ajustan 
+a las condiciones de mi hogar.
 
+![Diagrama de casos de uso RF-01](docs/images/casos-uso-rf01.png)
 
+#### HU-02 — Asociada a RF-02 (Patrón Composite)
 
+* Como Administrador de la Fundación, quiero consultar el catálogo sobre cualquier punto de la jerarquía de refugios
+usando la misma operación, sin importar si es un refugio individual o una agrupación, para conocer la disponibilidad de 
+mascotas tanto de un refugio puntual como de una ciudad o de la red completa.
 
+* Como Adoptante, quiero consultar las mascotas disponibles eligiendo si busco en un refugio específico o en toda la red 
+nacional, para poder decidir si adopto cerca de mi ciudad o si amplío la búsqueda a otras regiones cuando no
+encuentro una mascota compatible a mis intenciones.
 
-
+![Diagrama de casos de uso RF-02](docs/images/casos-uso-rf02.png)
 
 ## Herramientas
 
