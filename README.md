@@ -95,6 +95,7 @@ El sistema deberá soportar hasta 10.000 mascotas registradas distribuidas en la
 refugios,de acuerdo a lo expuesto en el RFN-01 manteniendo el mismo comportamiento en las operaciones de recorrido y consulta.
 
 ## Punto 3
+
 ### Historias de Usuario
 
 #### HU-01 — Asociada a RF-01 (Patrón Iterator)
@@ -116,6 +117,159 @@ nacional, para poder decidir si adopto cerca de mi ciudad o si amplío la búsqu
 encuentro una mascota compatible a mis intenciones.
 
 ![Diagrama de casos de uso RF-02](docs/images/casos-uso-rf02.png)
+
+
+
+## Punto 4
+# RF-01 — Recorrer el catálogo con múltiples criterios de búsqueda
+
+**Código** RF-01
+
+**Patrón asociado**  Iterator, comportamiento
+
+## Nombre
+Recorrer el catálogo con múltiples criterios de búsqueda.
+
+## Descripción
+El sistema permite al Adoptadore recorrer el catálogo de mascotas de la red de refugios aplicando uno
+de cuatro criterios de búsqueda: por especie, por rango de edad en meses, por compatibilidad o por
+refugio de origen.
+
+## Cómo se ejecutará
+
+El Adoptador ingresa a la pantalla de búsqueda del catálogo, selecciona el alcance sobre el que
+desea buscar que puede ser un refugio, una ciudad o la red nacional, elige un criterio de búsqueda, diligencia
+los valores que ese criterio requiere y ejecuta la consulta que quiere. El sistema recorre el catálogo del
+alcance seleccionado mediante el iterador  correspondiente al criterio y presenta los resultados a la busqueda.
+
+## Actor principal
+Adoptador.
+
+## Precondiciones
+- Debe existirr al menos un refugio registrado en la jerarquía.
+- El catálogo debe contener al menos una mascota registrada.
+
+
+## Datos de entrada
+- Alcance de la búsqueda (refugio, ciudad o red nacional).
+- Criterio de búsqueda seleccionado.
+- Valores del criterio, según cuál se haya elegido:
+- Por especie: PERRO, GATO, CONEJO, AVE o REPTIL.
+- Por rango de edad: edad mínima y edad máxima, en meses.
+- Por compatibilidad: compatible con niños, con otras mascotas y con espacios reducidos (sí/no cada uno).
+- Por refugio de origen: nombre del refugio.
+
+## Datos de salida
+- Listado de mascotas que cumplen el criterio, cada una con su identificador, nombre, especie, edad,
+  tamaño y refugio de origen.
+- Total de mascotas encontradas.
+
+## Flujo básico
+1. El Adoptador abre la pantalla de búsqueda del catálogo.
+2. El sistema muestra los alcances disponibles y los cuatro criterios de búsqueda.
+3. El Adoptador selecciona el alcance de la búsqueda.
+4. El Adoptador e selecciona un criterio de búsqueda.
+5. El sistema despliega los campos correspondientes a ese criterio.
+6. El Adoptador diligencia los valores y ejecuta la búsqueda.
+7. El sistema recorre el catálogo del alcance seleccionado con el iterador del criterio elegido.
+8. El sistema muestraa el listado de resultados y el total encontrado.
+
+## Flujo alterno
+- Sin resultados .En el ultimo paso, si ninguna mascota cumple el criterio, el sistema muestra
+  un total de 0 y un mensaje que indica que no se encontraron coincidencias con la busqueda, sugiriendo ampliar el
+  alcance o cambiar los valores del filtro para poder encontrar
+- Rango de edad inválido, si la edad mínima es mayor que la máxima, el
+  sistema no ejecuta la búsqueda e indica junto al campo que el rango no es válido.
+
+## Reglas de negocio
+- Solo se muestran en los resultados las mascotas que se encuentran disponibles para adopción.
+- La edad de las mascotas se maneja siempre en meses.
+- Las especies son las unicas que ya estan registradas.
+- El alcance de busqueda ya esta estipulado en la jerarquia, no deben habver mas opciones.
+## Historial de Revision
+
+- Elaborado por: Cristian Moreno Ruiz
+- Fecha : 03/09/2026
+- Descripcion y justifiacion : Basadome en lo estiuplado en los pasos anteriores, se hace el analisis por
+  cada unad de las partes y puntos de la plantilla que fue adjuntada en la herramienta Teams. Se logra hacer el
+  analiss por cada punto
+
+# RF-02 — Consultar el catálogo en cualquier nivel de la jerarquía de refugios
+
+**Código**  RF-02
+
+**Patrón asociado**  Composite , estructural
+
+## Nombre
+Consultar el catálogo en cualquier nivel de la jerarquía de refugios.
+
+## Descripción
+El sistema permite consultar el catálogo de mascotas sobre cualquier punto de la jerarquía de
+refugios mediante la misma operación, sin que quien consulta deba distinguir si el punto es un
+refugio individual o una agrupación de refugios.
+
+## Cómo se ejecutará
+
+El usuario ingresa a la pantalla de exploración de la red, donde se presenta la jerarquía Red
+Nacional, Ciudad ,Refugio. Selecciona el que quiere consultar y el sistema devuelve el
+catálogo correspondiente la seleccion.
+
+## Actor principal
+
+Administrador de la Fundación.
+
+## Actores secundarios
+
+Adoptador.
+
+## Precondiciones
+- El usuario se encuentra en la pantalla de exploración de la red.
+
+## Datos de entrada
+- Punto de la jerarquía seleccionado.
+
+## Datos de salida
+- Nombre y tipo del punto consultado.
+- Listado consolidado de las mascotas del nodo, cada una con su identificador, nombre, etc.
+- Total de mascotas encontradas en el nodo.
+
+## Flujo básico
+
+1. El usuario abre la pantalla de exploración de la red.
+2. El sistema muestra la jerarquía de refugios en forma de árbol navegable.
+3. El usuario selecciona un nodo de la jerarquía.
+4. El sistema identifica el nodo seleccionado y solicita su catálogo.
+5. Si el nodo es un refugio, el sistema devuelve las mascotas registradas en él.
+6. Si el nodo agrupa a otros, el sistema consolida de forma recursiva las mascotas de todos sus
+   descendientes.
+7. El sistema muestra el listado consolidado y el total de mascotas del nodo.
+
+## Flujo alterno
+
+- Punto de jerarquia sin mascotas, si el punto consultado no contiene mascotas ni
+  directamente ni a través de sus descendientes, el sisitema no muestra nada.
+- Nodo agrupador vacío. si el nodo agrupador no contiene refugios ni
+  subagrupaciones, el sistema devuelve un total de 0 sin generar error.
+
+## Reglas de negocio
+
+- Un refugio pertenece a una única ciudad y una ciudad pertenece a una única red.
+- El total de mascotas de un punto agrupador equivale a la suma de los totales de todos los nodos que
+  contiene.
+- La consulta se comporta igual sobre un refugio que sobre una agrupación, y devuelve el mismo tipo
+  de resultado para cada una de las busquedas.
+- Se puede consultar sobre cualquier punto y se debe obtener la misma informacion en todos.
+
+## Historial de Revision
+
+- Elaborado por: Cristian Moreno Ruiz
+- Fecha : 03/09/2026
+- Descripcion y justifiacion : Basadome en lo estiuplado en los pasos anteriores, se hace el analisis por
+  cada unad de las partes y puntos de la plantilla que fue adjuntada en la herramienta Teams. Se logra hacer el
+  analiss por cada punto
+
+
+
 
 ## Herramientas
 
