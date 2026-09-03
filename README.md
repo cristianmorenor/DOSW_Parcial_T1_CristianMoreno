@@ -268,6 +268,57 @@ Adoptador.
   cada unad de las partes y puntos de la plantilla que fue adjuntada en la herramienta Teams. Se logra hacer el
   analiss por cada punto
 
+## Punto 6 
+
+### Patrones de diseño
+
+### Patron 1
+###  Nombre: 
+Iterator
+### Tipo: 
+Patrón de comportamiento
+
+### Justificación de la decisión en el contexto de ECI Paw Connect
+Se selecciona Iterator pues Paw Connect necesita ofrecer diferentes formas de recorrer y consultar las mascotas registradas en el sistema. Por ejemplo, el usuario puede solicitar todas las mascotas de una determinada especie, aquellas que se encuentren dentro de un rango de edad o aquellas que cumplan determinadas condiciones de compatibilidad.
+
+El patrón permite que cada criterio de búsqueda tenga su propio mecanismo de recorrido sin que el código que utiliza el catálogo tenga que conocer cómo están almacenadas internamente las mascotas. Por ejemplo, se pueden implementar iteradores como PorEspecie, PorRangoEdad, PorCompatibilidad y PorRefugio. 
+Esto corresponde con los escenarios planteados en el caso de estudio, donde se muestran búsquedas por especie, rango de edad, compatibilidad y refugio.
+
+Además, Iterator facilita la extensión del sistema. Si en el futuro Paw Connect necesita incorporar otro criterio de recorrido, como tamaño, ciudad o nombre, se puede crear un nuevo iterador sin tener que modificar la lógica de los recorridos existentes.
+
+### Principios SOLID aplicados
+
+* Single Responsibility Principle (S): se aplica porque cada iterador tiene una responsabilidad específica. Por ejemplo el Iterator sobre Especie se encarga únicamente de realizar el recorrido por especie, mientras que IteratorEdad se encarga del recorrido por rango de edad. 
+Esto evita concentrar diferentes criterios de búsqueda dentro de una única clase.
+
+* Open/Closed Principle (O): se aplica porquee el sistema puede incorporar nuevos criterios de recorrido mediante nuevas implementaciones de Iterator, sin modificar los iteradores que ya existen. Por ejemplo, podría agregarse un IteratorTamano sin alterar IteratorEspecie o IteratorEdad en ningun momentoo.
+
+
+### Patron 2
+###  Nombre: composite
+### Tipo:
+Patrón de estructural
+
+### Justificación de la decisión en el contexto de ECI Paw Connect
+Se selecciona Composite porque los refugios de Paw Connect están organizados jerárquicamente. La estructura comienza con 
+la Red Nacional ECI Paw Connect, que contiene diferentes ciudades, y cada ciudad contiene los refugios correspondientes. 
+Por ejemplo, Bogotá contiene el Refugio Norte y el Refugio Sur, mientras que Medellín contiene el Refugio Central y Cali 
+contiene el Refugio Oeste. Esta estructura hace necesario que el sistema pueda trabajar tanto con un refugio individual 
+como con una agrupación de refugios de una manera uniforme y segura. 
+
+### Principios SOLID
+
+Single Responsibility Principle (S): se aplica porque cada clase tiene una responsabilidad específica. Refugio se encarga 
+de representar un refugio y administrar las mascotas que estan alli, mientras que AgrupacionRefugios se encarga de 
+administrar los elementos que forman parte de una agrupación especifica dentro de la red nacional.
+
+Open/Closed Principle (O): se aplica porque la estructura puede extenderse agregando nuevos tipos de componentes o 
+nuevas agrupaciones sin tener que modificar la lógica existente. Por ejemplo, se pueden agregar nuevas ciudades o nuevos 
+refugios a la estructura utilizando la misma abstracción sin tener qu eromper nada que se habia hecho anteriormente.
+
+Dependency Inversion Principle (D): se aplica porque el código cliente puede depender de la abstracción RefugioComponent 
+en lugar de depender directamente de las clases concretas Refugio o AgrupacionRefugios. Esto disminuye el acoplamiento 
+entre las clases del sistema.
 
 
 
